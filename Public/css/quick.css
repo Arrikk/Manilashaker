@@ -1,0 +1,74 @@
+.pur_network_label{
+    filter: grayscale(1) blur(1px);
+    border: 2px solid #243f9e;
+    border-radius: 7px;
+    transition: filter 0.5s, transform 0.5s;
+}
+.pur_network_label.active{
+    filter: grayscale(0);
+    transform: scale(1.2);
+}
+.pur_network{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.pur_network_check{
+    display: none;
+}
+.airtime-purchase{
+    transition: 0.5s;
+}
+.active-roll{
+    transition: 0.5s;
+    animation: roll 1s ease-in-out infinite;
+}
+.element-balances .balance.balance-v2:first-child{
+    background: linear-gradient(#506ffa, #4b64d2);
+    color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 2px #506ffa
+}
+.element-balances .balance.balance-v2 .balance-title {
+    color: #fff;
+}
+.element-balances .balance-value {
+    color: #ffffff;
+}
+.top-bar .logged-user-w .avatar-w img {
+    height: 40px;
+    object-fit: cover;
+}
+.menu-w.menu-layout-compact .logged-user-w .avatar-w img {
+    height: 35px;
+    object-fit: cover;
+}
+.top-bar.color-scheme-bright{
+    display: flex;
+    flex-direction: row;
+}
+.image-fr{
+    width: 0px;
+    z-index: 100;
+}
+@media (max-width: 360px){
+    .fs-name{
+        font-size: smaller !important;
+    }
+    .balance-table.pl-sm-2{
+        display: none !important;
+    }
+    .element-balances.justify-content-between.mobile-full-width{
+        padding-bottom: 0 !important;
+    }
+}
+@keyframes roll{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,100 @@
+<?php
+
+namespace App\Controllers;
+
+use App\Models\Blog;
+use Core\Controller;
+use simplehtmldom\HtmlWeb;
+
+class ImportBlog extends Controller
+{
+    protected $client;
+    protected $html;
+
+    public static function load()
+    {
+        $page = $_GET['page'] ?? '';
+        $blog = new ImportBlog((int) $page);
+        return $blog;
+    }
+
+    public function scrape($pg = 2)
+    {
+        $link = "https://www.gizchina.com/category/news/";
+        $this->client = new HtmlWeb;
+        $this->html = $this->client->load($link);
+
+        $data = [];
+        
+        $i = 0;
+        foreach ($this->html->find('div[class=vw-post-box__inner]') as $item) :
+            if ($i == 3) break;
+            $i++;
+
+            # Featured Image
+            $imgCont = $item->find('div[class=vw-post-box__thumbnail]', 0)->find('img', 0);
+            $featured = $imgCont->src;
+
+            # Categories
+            $categories = [];
+
+            # Redirect Link
+            $link = $item->find('a[class=vw-post-box__link]', 0);
+            $redirect = $link->href;
+
+            # Title and slug
+            $title = $link->innertext;
+            $slug = explode('/', $redirect);
+            $slug = $slug[count($slug) - 2];
+
+            # Post Body
+            $bodyHtml = $this->client->load($redirect);
+            $pbody = '';
+            $body = $bodyHtml->find('main[class=vw-content-main]', 0);
+            $body = $body->find('div[class=vw-post-content clearfix]', 0);
+
+            $post = $body->find('p');
+            foreach ($post as $posts) :
+                $pbody .= $posts;
+            endforeach;
+
+            $data[] = [
+                'image' => $featured,
+                'title' => $title,
+                'meta_description' => $title,
+                '_slug' => $slug,
+                'post' => $pbody,
+                'tag' => '',
+                'category' => [],
+                'type' => 'bot',
+                'status' => Blog::DRAFT
+            ];
+        endforeach;
+
+
+        $new = [];
+        foreach ($data as $data):
+            $new[] = Blog::savePost($data);
+        endforeach;
+        echo json_encode($new);
+    }
+
+    public function page()
+    {
+        $pages = Blog::restoreOrLastPage(['opt' => 'get'])->last;
+        $pages = explode(' ', $pages);
+
+        $next = [];
+        foreach ($pages as $page):
+            $next[] = (int) $page+3;
+            $this->scrape( (int) $pages+3);
+        endforeach;
+
+        $next = implode(',', $next);
+        $next = str_replace(',', ' ', $next);
+        Blog::restoreOrLastPage(['opt' => 'set', 'last' => $next]);
+        return;
+        
+    }
+}
+

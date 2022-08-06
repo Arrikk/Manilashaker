@@ -1,0 +1,32 @@
+.spinner-grow {
+    color: #304aca;
+}
+.spinner-border {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: text-bottom;
+    border: .25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    -webkit-animation: spinner-border .75s linear infinite;
+    animation: spinner-border .75s linear infinite;
+}
+.loader-sm{
+    font-size: 10px;
+    height: 1rem;
+    width: 1rem;
+}
+.text-success {
+    color: #8dbf42 !important;
+}
+.text-white {
+    color: #fff !important;
+}
+
+@keyframes spinner-border{
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}

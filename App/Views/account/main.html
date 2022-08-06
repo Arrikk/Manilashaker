@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <?php 
+    head(['title' => 'Account']); 
+    $GLOBALS['users'] = $user; 
+    $GLOBALS['analysis'] = $analysis;
+    ?>
+<body class="menu-position-side menu-side-left full-screen with-content-panel">
+    <div class="all-wrapper with-side-panel solid-bg-all">
+        <div class="layout-w">
+            <!--------------------
+            END - Mobile Menu
+            -------------------->
+            <!--------------------
+            START - Main Menu
+            -------------------->
+            <?php mainMenu() ?>
+            <!--------------------
+            END - Main Menu
+            -------------------->
+
+            <div class="content-w">
+                <!--------------------
+                START - Top Bar
+                -------------------->
+                <?php topBar() ?>
+                <!--------------------
+                END - Top Bar
+                -------------------->              
+
+                <div class="content-i">
+                    <div class="content-panel-toggler">
+                    <i class="os-icon os-icon-grid-squares-22"></i><span>Sidebar</span>
+                  </div>
+                    <div class="content-box">
+                        <div class="row">
+                            <?php 
+                                topRow1();
+                                topRow2();
+                                topRow3();
+                            ?>
+                        </div>
+                        <div class="row pt-2">
+                            <!-- < ? php dash2() ?> -->
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <?php dashSendTo() ?>
+                                <?php dashDataTo() ?>
+                            </div>
+                            <div class="col-sm-4">
+                                <?php dashTransactions() ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php 
+                        sideBar();
+                        colorSwitcher();
+                     ?>
+                </div>
+                <?php fundWallet() ?>
+            </div>
+
+        </div>
+        <div class="display-type"> </div>
+    </div>
+    <?php mainScript(); ?>
+    <script src="/Public/custom/home.js"></script>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+</body>
+</html>

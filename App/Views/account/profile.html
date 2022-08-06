@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <?php head(['title' => 'Profile']); $GLOBALS['users'] = $user; ?>
+<body class="menu-position-side menu-side-left full-screen with-content-panel">
+    <div class="all-wrapper with-side-panel solid-bg-all">
+        <div class="layout-w">
+            <!--------------------
+            START - Mobile Menu
+            -------------------->
+            <!--------------------
+            END - Mobile Menu
+            -------------------->
+            <!--------------------
+            START - Main Menu
+            -------------------->
+            <?php mainMenu() ?>
+            <!--------------------
+            END - Main Menu
+            -------------------->
+
+            <div class="content-w">
+                <!--------------------
+                START - Top Bar
+                -------------------->
+                <?php topBar() ?>
+                <!--------------------
+                END - Top Bar
+                -------------------->
+                
+
+                <div class="content-i">
+                    <div class="content-box">
+                        <div class="row">
+                            <?php profileLeft();
+                                profileRight(); ?>
+                        </div>
+                        <?php 
+                            colorSwitcher();
+                         ?>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="display-type"> </div>
+    </div>
+    <?php mainScript(); ?>
+    <script src="/Public/custom/profile.js"></script>
+</body>
+</html>
