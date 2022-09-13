@@ -14,7 +14,7 @@ class Config
      * 
      * @var string
      */
-    CONST DB_HOST = 'localhost';
+    CONST DB_HOST = 'db';
     /**
      * DB name
      * 
@@ -26,13 +26,13 @@ class Config
      * 
      * @var string
      */
-    CONST DB_USER = 'root';
+    CONST DB_USER = 'manilashaker';
     /**
      * DB Password
      * 
      * @var string
      */
-    CONST DB_PASSWORD =  '';
+    CONST DB_PASSWORD =  'Manilashaker4321';
     /**
      * Error
      * 

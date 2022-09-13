@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+  app:
+    build: ./docker
+    image: arrikk/manilashaker
+    ports:
+      - "7070:80"
+    volumes:
+      - ./:/var/www
+  db:
+    image: mysql:5.7
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: Manilashaker4321
+      MYSQL_DATABASE: manilashaker
+      MYSQL_USER: manilashaker
+      MYSQL_PASSWORD: Manilashaker4321
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 300M
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+
+volumes:
+  mysql-data:
