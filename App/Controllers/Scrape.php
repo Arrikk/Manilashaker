@@ -87,6 +87,12 @@ class Scrape extends Controller
     }
     public function page()
     {
+        if(isset($_GET['page'])){
+            $page = (int) $_GET['page'];
+            $page = ($page) ." ". ($page+1) ." ". ($page+2);
+            Blog::restoreOrLastPage(['opt' => 'set', 'last' => $page]);
+        }
+
         $pages = Blog::restoreOrLastPage(['opt' => 'get'])->last;
         $pages = explode(' ', $pages);
 
@@ -103,6 +109,8 @@ class Scrape extends Controller
         $next = implode(',', $next);
         $next = str_replace(',', ' ', $next);
         Blog::restoreOrLastPage(['opt' => 'set', 'last' => $next]);
+        
+        if(isset($_GET['page'])) header('Location:/site/scrape/page');
         header("refresh:6;url=?page=$this->current");
         return;
     }

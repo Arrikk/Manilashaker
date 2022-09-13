@@ -102,9 +102,9 @@ class Blog extends \Core\Model
             'post_title' => htmlspecialchars(trim($title)),
             'post_image' => htmlspecialchars(trim($image)),
             'category_id' => $cat,
-            'post_body' => htmlspecialchars(trim($post)),
+            'post_body' => self::clean(htmlspecialchars(trim($post))),
             'post_description' => static::clean($meta_description),
-            'post_author' => $author ?? '',
+            'post_author' => $author ?? 1,
             'post_status' => $status,
             'post_slug' => static::clean($slug),
             'post_tag' => $tags

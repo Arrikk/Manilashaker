@@ -69,19 +69,29 @@ class FoneScrap extends Controller{
     }
     public function page()
     {
+        if(isset($_GET['page'])){
+            $page = (int) $_GET['page'];
+            $page = ($page) ." ". ($page+1) ." ". ($page+2);
+            Blog::restoreOrLastPage(['opt' => 'set', 'last' => $page]);
+        }
+
         $pages = Blog::restoreOrLastPage(['opt' => 'get'])->last;
         $pages = explode(' ', $pages);
 
         $next = [];
         foreach ($pages as $page) :
-            $count = $page + count($pages);
+            if ($page <= 1){$next == false; break;};
+            $count = $page - count($pages);
             $next[] = (int) $count;
             $this->scrape($count);
         endforeach;
 
+        if($next == false) return;
+
         $next = implode(',', $next);
         $next = str_replace(',', ' ', $next);
         Blog::restoreOrLastPage(['opt' => 'set', 'last' => $next]);
+        if(isset($_GET['page'])) header('Location:/site/fonescrap/page');
         header( "refresh:6;url=?page=$this->current" );
         return;
     }
