@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use Core\Controller;
 use App\Models\Blog;
+use Core\Http\Res;
 use simplehtmldom\HtmlWeb;
 
 class Scrape extends Controller
@@ -110,7 +111,7 @@ class Scrape extends Controller
         $next = str_replace(',', ' ', $next);
         Blog::restoreOrLastPage(['opt' => 'set', 'last' => $next]);
         
-        if(isset($_GET['page'])) header('Location:/site/scrape/page');
+        if(isset($_GET['page'])) return Res::send("<script>window.location='/site/scrape/page'</script>");
         header("refresh:6;url=?page=$this->current");
         return;
     }
