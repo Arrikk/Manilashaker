@@ -112,7 +112,14 @@ class Scrape extends Controller
         Blog::restoreOrLastPage(['opt' => 'set', 'last' => $next]);
         
         if(isset($_GET['page'])) return Res::send("<script>window.location='/site/scrape/page'</script>");
-        header("refresh:6;url=?page=$this->current");
+        return Res::send('
+            <script>
+                setTimeout(() => {
+                    window.location.reload()
+                }, 5000)
+            </script>
+        ');
+        // header("refresh:6;url=?page=$this->current");
         return;
     }
 }
