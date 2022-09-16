@@ -91,7 +91,7 @@ class FoneScrap extends Controller{
         $next = implode(',', $next);
         $next = str_replace(',', ' ', $next);
         Blog::restoreOrLastPage(['opt' => 'set', 'last' => $next]);
-        if(isset($_GET['page'])) header('Location:/site/fonescrap/page');
+        if(isset($_GET['page'])) return Res::send("<script>window.location='/site/fonescrap/page'</script>");
         header( "refresh:6;url=?page=$this->current" );
         return;
     }
