@@ -28,7 +28,7 @@ trait Model
      * or.field OR {field = :field => value}
      */
 
-
+    private static $col = '';
 
     /**
      * Find all data from a table
@@ -58,7 +58,7 @@ trait Model
      * @param bool $exec set to defaultly to true. set to false only to see your query
      * @return object
      */
-    private static function findOne(array $array, $type = '*', bool $exec = true)
+    public static function findOne(array $array, $type = '*', bool $exec = true)
     {
         if(in_array('$.from', array_keys($array))){
             $prep = static::select($type, '');
@@ -87,6 +87,7 @@ trait Model
      */
     private static function findById(int $id, string $field = 'id', string $extract = '*', bool $exec = true)
     {
+        if(isset(self::$col)) $field = self::$col; 
         return static::findOne([$field => $id], $extract, $exec);
     }
 
@@ -182,6 +183,11 @@ trait Model
             return static::findById($save);
         endif;
         return $save->get();
+    }
+
+    public static function col($col){
+        self::$col = $col;
+        return new static;
     }
     
     // /**

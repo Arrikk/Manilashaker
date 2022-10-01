@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use App\Models\User;
+use Core\Http\Res;
 use Core\Traits\Model;
 
 /**
@@ -42,14 +43,14 @@ class Post extends \Core\Model
     public static function dumpPost($param = '', $type = Post::ALL, $page = 1)
     {
         $limit = Post::setLimit($page);
-        $limit = $limit .', '. Post::LIMIT;
-        
+        $limit = $limit . ', ' . Post::LIMIT;
+
         //  query cols 
         $col = 'p.category_id, p.post_body, p.views, p.post_id as post_id,
         p.post_image, p.post_slug, p.post_tag,p.post_title, u.firstName,
          DATE_FORMAT(p.createdAt, "%b %a %y") as date, p.createdAt as dtime';
 
-        
+
         switch ($type) {
             case Post::ALL:
                 return static::findPost([], $col);
@@ -69,7 +70,7 @@ class Post extends \Core\Model
                 return static::findByAuthor($param, $limit);
                 break;
             default:
-            return [];
+                return [];
                 break;
         }
     }
@@ -92,8 +93,8 @@ class Post extends \Core\Model
      * @return object otherwise return bool
      */
     public static function findOnePost(array $param = [], $column = '*')
-    {   
-        return Post::findOne($param, $column);
+    {
+        return Post::col('category_id')::findOne($param, $column);
     }
 
     /**
@@ -102,15 +103,15 @@ class Post extends \Core\Model
      * @return array>bool  otherwise return bool
      */
     public static function findByAuthor(string $param, $limit = 5)
-    { 
-        $col ='p.category_id, p.post_body, p.views, p.post_id as post_id,
+    {
+        $col = 'p.category_id, p.post_body, p.views, p.post_id as post_id,
         p.post_image, p.post_slug, p.post_tag,p.post_title, u.firstName,
          DATE_FORMAT(p.createdAt, "%b %a %y") as date, p.createdAt as dtime';
 
 
         $author = User::findBy(['username' => $param]);
 
-        if($author){
+        if ($author) {
 
             static::$table = '';
             $posts = Post::findPost([
@@ -139,8 +140,8 @@ class Post extends \Core\Model
     public static function totalAuthorPost(string $username)
     {
         $author = User::findBy(['username' => $username]);
-        
-        if($author){
+
+        if ($author) {
 
             $posts = Post::findPost([
                 'post_author' => $author->user_id,
@@ -159,6 +160,59 @@ class Post extends \Core\Model
         if ($page <= 0) $page = 1;
         $page = ($page - 1) * $limit;
         return $page;
+    }
+
+    /**
+     * save post from migration
+     */
+
+    public static function post($data)
+    {
+        extract((array) $data);
+        $tags = implode(',', $tag);
+        $category = [];
+        # check for incoming categories
+        if (isset($categories) && !empty($categories)) :
+            $category = array_map(function ($category) {
+                return PostCategory::saveCategory([
+                    'name' => $category,
+                    'parent' => 0
+                ]);
+            }, $categories);
+        endif;
+
+        $author = self::getAuthor($email, $name);
+
+        $data = [
+            'post_title' => htmlspecialchars(trim($title)),
+            'post_image' => htmlspecialchars(trim($image)),
+            'category_id' => implode(',', $category),
+            'post_body' => self::clean(htmlspecialchars(trim($post))),
+            'post_description' => static::clean($meta_description),
+            'post_author' => $author ?? 1,
+            'post_status' => $status,
+            'post_slug' => static::clean($slug),
+            'post_tag' => $tags
+        ];
+        if($post = Post::findOnePost(['post_slug' => $slug]))
+            return;
+
+        return Post::col('category_id')::dump($data);
+    }
+
+    public static function getAuthor($email, $name)
+    {
+        if($user = User::findByEmail($email)):
+            return $user->user_id;
+        else:
+            $user = self::col('user_id')::dump([
+                'email' => $email,
+                'firstName' => $name,
+                'username' => strtolower(str_replace(' ', '_', $name)),
+                'password_hash' => password_hash('author', PASSWORD_DEFAULT)
+            ], 'users');
+            return $user->id;
+        endif;
     }
 
     //===================================================== ===============

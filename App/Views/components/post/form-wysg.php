@@ -13,10 +13,9 @@ function __form_post_left(){
                         <div class="col-12">
                             <label class="form-label" for="">Post Body</label>
                             <textarea id="ckeditor1" name="post" style="width:100%;">
-                            <?= $post->post_body ?? '' ?>
+                            <?= html_entity_decode($post->post_body ?? '') ?>
                         </textarea>
                         </div>
-
                     </div>
                 </div>
             </div>

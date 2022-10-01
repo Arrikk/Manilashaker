@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Auth;
+use Core\Http\Res;
 use PDO;
 
 /**
@@ -141,7 +142,7 @@ class Blog extends \Core\Model
         $page = ($page - 1) * $limit;
 
         if ($total) {
-            return static::select('COUNT(*) as total', 'posts')->obj()->exec()->total;
+            return static::select('COUNT(*) as total', 'posts')->where('post_status', Blog::PUBLISHED)->obj()->exec()->total;
         }
         if ($random) {
             return static::select('*')->from('posts')->order('RAND() ASC')->limit("$page, $limit")->exec();
@@ -228,12 +229,12 @@ class Blog extends \Core\Model
      */
     public static function getAuthor($id)
     {
-        $author = static::select('firstName as name', 'users')->where('user_id', $id)->obj()
+        $author = static::select('firstName as name', 'users')->where('user_id',  11)->obj()
             ->exec();
         return $author->name;
     }
 
-    /**
+    /*
      * Recent Posts
      * 
      * @return array
@@ -268,7 +269,7 @@ class Blog extends \Core\Model
 
             return static::select(
                 '
-            p.category_id, p.post_body, p.views, p.post_id as post_id,
+            p.category_id, p.post_body, p.post_status, p.views, p.post_id as post_id,
             p.post_image, p.post_slug, p.post_tag,p.post_title, u.firstName as author,
             u.profile as author_img, u.username as username, u.desc as author_desc,
              DATE_FORMAT(p.createdAt, "%b %a %y") as date, p.createdAt as dtime'
@@ -425,7 +426,7 @@ class Blog extends \Core\Model
     {
         extract($form);
 
-        $slug = preg_replace('/[^a-z]+/i', '-', $__name ?? '');
+        $slug = preg_replace('/[^a-z0-9]+/i', '-', $__name ?? '');
         $slug = strtolower($slug);
         $data = [
             'category_name' => static::clean(ucfirst($__name ?? '')),

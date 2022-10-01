@@ -14,31 +14,31 @@ class Config
      * 
      * @var string
      */
-    CONST DB_HOST = 'db';
+    CONST DB_HOST = 'localhost';
     /**
      * DB name
      * 
      * @var string
      */
-    CONST DB_NAME = 'manilashaker';
+    CONST DB_NAME = 'lang';
     /**
      * DB username
      * 
      * @var string
      */
-    CONST DB_USER = 'manilashaker';
+    CONST DB_USER = 'root';
     /**
      * DB Password
      * 
      * @var string
      */
-    CONST DB_PASSWORD =  'Manilashaker4321';
+    CONST DB_PASSWORD =  '';
     /**
      * Error
      * 
      * @var bool
      */
-    CONST SHOW_ERROR = false;
+    CONST SHOW_ERROR = true;
     /**
      * Base Url
      * 

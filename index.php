@@ -24,7 +24,7 @@ require 'vendor/autoload.php';
  */
 // Twig_Autoloader::register();
 
-ini_set('max_execution_time', 130);
+ini_set('max_execution_time', 200);
 date_default_timezone_set('Africa/Lagos');
 define('SIGN', '₱');
 
