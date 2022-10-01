@@ -46,7 +46,7 @@
 
                     <a href="javascript:;" class="text-danger post-delete" data-bs-toggle="tooltip" data-bs-placement="bottom" data-delete-post="${e.post_id}" title="" data-bs-original-title="Delete" aria-label="Delete"><i class="bi bi-trash-fill"></i></a>
                     </div>` : `<div class="d-flex align-items-center gap-3 fs-6">
-                    <a href="/news/${e.post_slug}" target="_blank" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="View detail" aria-label="Views">view</a>
+                    <a href="/${e.post_slug}" target="_blank" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="View detail" aria-label="Views">view</a>
                     <a href="${window.url.new_p}?edit=${e.post_id}" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit"><i class="bi bi-pencil-fill"></i></a>
                     <a href="?trash=${e.post_id}" class="text-danger post-deletes" data-bs-toggle="tooltip" data-bs-placement="bottom" data-delete-post="${e.post_id}" title="" data-bs-original-title="Delete" aria-label="Delete"><i class="bi bi-trash-fill"></i></a>
                     </div>`

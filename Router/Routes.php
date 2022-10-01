@@ -61,10 +61,6 @@ $router->add('category/{category}/{page:[\d]+}', ['controller' => 'post', 'actio
 
 $router->add('news/{category}/{ref:[\d\w]+}/', ['controller' => 'blog', 'action' => 'category']);
 
-// Gadgets Routes
-$router->add('fetch/{payload:[\d\w_-]+}/', ['controller' => 'gadgets', 'action' => 'gadgets']);
-$router->add('{parent:[\d\w_-]+}/{payload:[\d\w_-]+}/', ['controller' => 'gadgets', 'action' => 'product']);
-$router->add('{category:[\w-]+}/{payload:[+()\w\d\_-]+}', ['controller' => 'gadgets', 'action' => 'singleProduct']);
 
 // Compare Routes
 $router->add('compare/compared/', ['controller' => 'compare', 'action' => 'compared']);
@@ -72,6 +68,11 @@ $router->add('compare/save-comparison/', ['controller' => 'compare', 'action' =>
 $router->add('compare/compare/{payload:[\d\w_-]+}', ['controller' => 'compare', 'action' => 'compare']);
 $router->add('compare/{payload:[\d\w_-]+}/', ['controller' => 'compare', 'action' => 'gadget']);
 $router->add('compare/{payload:[\d\w_-]+}/{versus:[\d\w_-]+}', ['controller' => 'compare', 'action' => 'gadget']);
+
+// Gadgets Routes
+$router->add('fetch/{payload:[\d\w_-]+}/', ['controller' => 'gadgets', 'action' => 'gadgets']);
+$router->add('{parent:[\d\w_-]+}/{payload:[\d\w_-]+}/', ['controller' => 'gadgets', 'action' => 'product']);
+$router->add('{category:[\w-]+}/{payload:[+()\w\d\_-]+}', ['controller' => 'gadgets', 'action' => 'singleProduct']);
 
 //  General Routes
 $router->add('{controller}/{action}');

@@ -105,7 +105,7 @@ function __ui_single_author($data)
             <a href="/author/post/<?= $data->username ?>">
                 <h3 class="ui-article-name"><?= $data->author ?></h3>
             </a>
-            <p><?= $data->author_desc !== NULL ? html_entity_decode($data->author_desc ) : '' ?></p>
+            <p><?= $data->author_desc !== 'NULL' ? html_entity_decode($data->author_desc ) : '' ?></p>
         </div>
     </div>
 <?php
