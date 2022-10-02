@@ -13,6 +13,7 @@ class Plugin extends Controller
 
     public function pull($page = 22)
     {
+        $page = isset($_GET['page']) ? $_GET['page'] : 22;
         $posts = file_get_contents("https://manilashaker.com/wp-json/wl/v1/posts?page=$page");
         $posts = json_decode($posts);
 
