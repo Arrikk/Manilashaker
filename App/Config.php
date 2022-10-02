@@ -39,6 +39,7 @@ class Config
      * @var bool
      */
     CONST SHOW_ERROR = true;
+    
     /**
      * Base Url
      * 
