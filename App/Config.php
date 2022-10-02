@@ -26,7 +26,7 @@ class Config
      * 
      * @var string
      */
-    CONST DB_USER = 'Manilashaker';
+    CONST DB_USER = 'root';
     /**
      * DB Password
      * 
