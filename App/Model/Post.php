@@ -205,13 +205,14 @@ class Post extends \Core\Model
         if($user = User::findByEmail($email)):
             return $user->user_id;
         else:
-            $user = self::col('user_id')::dump([
+            $user = self::create('users', [
                 'email' => $email,
                 'firstName' => $name,
                 'username' => strtolower(str_replace(' ', '_', $name)),
                 'password_hash' => password_hash('author', PASSWORD_DEFAULT)
-            ], 'users');
-            return $user->id;
+            ])->lid()->exec();
+            $user = self::select('*', 'users')->where('user_id', $user)->obj()->exec();    
+            return $user->user_id;
         endif;
     }
 

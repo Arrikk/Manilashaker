@@ -13,7 +13,6 @@ class Plugin extends Controller
 
     public function pull($page = 22)
     {
-        $page = $_GET['page'];
         $posts = file_get_contents("https://manilashaker.com/wp-json/wl/v1/posts?page=$page");
         $posts = json_decode($posts);
 
@@ -83,7 +82,7 @@ class Plugin extends Controller
         $next = [];
         foreach ($pages as $page) :
             if ($page <= 1){$next == false; break;};
-            $count = $page - count($pages);
+            $count = $page -  count($pages);
             $next[] = (int) $count;
             $this->pull($count);
         endforeach;
@@ -94,7 +93,7 @@ class Plugin extends Controller
         $next = str_replace(',', ' ', $next);
         Blog::restoreOrLastPage(['opt' => 'set', 'last' => $next]);
         
-        if(isset($_GET['page'])) return Res::send("<script>window.location='/site/plugin/pull'</script>");
+        if(isset($_GET['page'])) return Res::send("<script>window.location='/site/plugin/page'</script>");
         return Res::send('
             <script>
                 setTimeout(() => {
