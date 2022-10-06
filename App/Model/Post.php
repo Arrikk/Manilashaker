@@ -192,7 +192,8 @@ class Post extends \Core\Model
             'post_author' => $author ?? 1,
             'post_status' => $status,
             'post_slug' => static::clean($slug),
-            'post_tag' => $tags
+            'post_tag' => $tags,
+            'createdAt' => $createdAt
         ];
         if($post = Post::findOnePost(['post_slug' => $slug]))
             return;

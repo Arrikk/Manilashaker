@@ -145,18 +145,18 @@ class Blog extends \Core\Model
             return static::select('COUNT(*) as total', 'posts')->where('post_status', Blog::PUBLISHED)->obj()->exec()->total;
         }
         if ($random) {
-            return static::select('*')->from('posts')->order('RAND() ASC')->limit("$page, $limit")->exec();
+            return static::select('*')->from('posts')->order('RAND() DESC')->limit("$page, $limit")->exec();
         }
         return static::select(
             '
         p.category_id, p.post_body, p.views, p.post_id as post_id,
         p.post_image, p.post_slug, p.post_tag,p.post_title, u.firstName,
-         DATE_FORMAT(p.createdAt, "%b %a %y") as date, p.createdAt as dtime'
+         DATE_FORMAT(p.createdAt, "%b %a %Y") as date, p.createdAt as dtime'
         )   
             ->from('posts p')->left('post_comments c')->on('c.post_id = p.post_id')
             ->left('users u')->on('p.post_author = u.user_id')
             ->where('post_status', $param)
-            ->order('p.post_id DESC')->limit("$page, $limit")->exec();
+            ->order('p.createdAt DESC')->limit("$page, $limit")->exec();
     }
 
     /**
@@ -173,12 +173,12 @@ class Blog extends \Core\Model
             '
         p.category_id, p.post_body, p.views, p.post_id as post_id,
         p.post_image, p.post_slug, p.post_tag, p.post_title,
-         DATE_FORMAT(p.createdAt, "%b %a %y") as date, p.createdAt as dtime'
+         DATE_FORMAT(p.createdAt, "%b %a %Y") as date, p.createdAt as dtime'
         )
             ->from('posts p')->left('post_comments c')->on('c.post_id = p.post_id')
 
             ->where('post_status', $param)
-            ->order('p.post_id DESC')->limit("$page, $limit")->exec();
+            ->order('p.createdAt DESC')->limit("$page, $limit")->exec();
     }
 
     /**
@@ -203,7 +203,7 @@ class Blog extends \Core\Model
         return static::select('*, DATE_FORMAT(createdAt, "%b %a %y") as date, createdAt as dtime')
             ->from('posts')
             ->where('post_status', $param)
-            ->order('post_id DESC')->limit("$page, $limit")->exec();
+            ->order('createdAt DESC')->limit("$page, $limit")->exec();
     }
 
     /**
@@ -293,7 +293,7 @@ class Blog extends \Core\Model
          DATE_FORMAT(p.createdAt, "%b %a %y") as date, p.createdAt as dtime'
         )
             ->from('posts p')->left('post_categories c')->on('c.category_id = p.category_id')
-            ->order('p.post_id DESC')->limit("$id, 4")->exec();
+            ->order('p.createdAt DESC')->limit("$id, 4")->exec();
     }
 
     /**

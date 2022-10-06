@@ -46,6 +46,8 @@ class Plugin extends Controller
                 'title' => $postObj->title ?? '',
                 'post' => $postObj->content ?? '',
                 'slug' => $postObj->slug ?? '',
+                'createdAt' => $postObj->createdAt ?? '',
+                'updatedAt' => $postObj->updatedAt ?? '',
                 'image' => $image->large ?? '',
                 'meta_description' => $postObj->title,
                 'tag' => $tagToSave,
