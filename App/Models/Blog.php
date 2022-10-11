@@ -151,7 +151,7 @@ class Blog extends \Core\Model
             '
         p.category_id, p.post_body, p.views, p.post_id as post_id,
         p.post_image, p.post_slug, p.post_tag,p.post_title, u.firstName,
-         DATE_FORMAT(p.createdAt, "%b %a %Y") as date, p.createdAt as dtime'
+         DATE_FORMAT(p.createdAt, "%b %d %Y") as date, p.createdAt as dtime'
         )   
             ->from('posts p')->left('post_comments c')->on('c.post_id = p.post_id')
             ->left('users u')->on('p.post_author = u.user_id')
@@ -173,7 +173,7 @@ class Blog extends \Core\Model
             '
         p.category_id, p.post_body, p.views, p.post_id as post_id,
         p.post_image, p.post_slug, p.post_tag, p.post_title,
-         DATE_FORMAT(p.createdAt, "%b %a %Y") as date, p.createdAt as dtime'
+         DATE_FORMAT(p.createdAt, "%b %d %Y") as date, p.createdAt as dtime'
         )
             ->from('posts p')->left('post_comments c')->on('c.post_id = p.post_id')
 
@@ -189,7 +189,7 @@ class Blog extends \Core\Model
         $limit = 6;
         if ($page <= 0) $page = 1;
         $page = ($page - 1) * $limit;
-        return static::select('*, DATE_FORMAT(createdAt, "%b %a %y") as date')
+        return static::select('*, DATE_FORMAT(createdAt, "%b %d %y") as date')
             ->from('posts')
             ->where('post_status', $param)
             ->order('views ASC')->limit("$page, $limit")->exec();
@@ -200,7 +200,7 @@ class Blog extends \Core\Model
         if ($page <= 0) $page = 1;
         $page = ($page - 1) * $limit;
 
-        return static::select('*, DATE_FORMAT(createdAt, "%b %a %y") as date, createdAt as dtime')
+        return static::select('*, DATE_FORMAT(createdAt, "%b %d %y") as date, createdAt as dtime')
             ->from('posts')
             ->where('post_status', $param)
             ->order('createdAt DESC')->limit("$page, $limit")->exec();
@@ -241,14 +241,14 @@ class Blog extends \Core\Model
      */
     public static function recentPost()
     {
-        return static::select('*, DATE_FORMAT(createdAt, "%b %a %y") as date', 'posts')
+        return static::select('*, DATE_FORMAT(createdAt, "%b %d %y") as date', 'posts')
             ->where('post_status', static::PUBLISHED)
             ->order('RAND() ASC')->limit(10)->exec();
     }
 
     public static function otherPost()
     {
-        return static::select('*, DATE_FORMAT(createdAt, "%b %a %y") as date', 'posts')
+        return static::select('*, DATE_FORMAT(createdAt, "%b %d %y") as date', 'posts')
             ->where('post_status', static::PUBLISHED)
             ->order('RAND() DESC')->limit(10)->exec();
     }
@@ -272,7 +272,7 @@ class Blog extends \Core\Model
             p.category_id, p.post_body, p.post_status, p.views, p.post_id as post_id,
             p.post_image, p.post_slug, p.post_tag,p.post_title, u.firstName as author,
             u.profile as author_img, u.username as username, u.desc as author_desc,
-             DATE_FORMAT(p.createdAt, "%b %a %y") as date, p.createdAt as dtime'
+             DATE_FORMAT(p.createdAt, "%b %d %y") as date, p.createdAt as dtime'
             )
                 ->from('posts p')
                 ->left('users u')->on('p.post_author = u.user_id')
@@ -290,7 +290,7 @@ class Blog extends \Core\Model
             '
         p.category_id, p.post_title, p.post_image, c.category_id as cat_id, 
         c.category_name as cat_name, c.slug as cat_slug, p.post_slug,
-         DATE_FORMAT(p.createdAt, "%b %a %y") as date, p.createdAt as dtime'
+         DATE_FORMAT(p.createdAt, "%b %d %y") as date, p.createdAt as dtime'
         )
             ->from('posts p')->left('post_categories c')->on('c.category_id = p.category_id')
             ->order('p.createdAt DESC')->limit("$id, 4")->exec();
@@ -331,7 +331,7 @@ class Blog extends \Core\Model
         return static::select('
         p.category_id, p.post_body, p.views, p.post_id as post_id,
         p.post_image, p.post_slug, p.post_tag,p.post_title, u.firstName,
-         DATE_FORMAT(p.createdAt, "%b %a %y") as date'
+         DATE_FORMAT(p.createdAt, "%b %d %y") as date'
         )
         ->from('posts p')
         ->left('users u')->on('p.post_author = u.user_id')
@@ -342,7 +342,7 @@ class Blog extends \Core\Model
 
     public static function postByTag($tag)
     {
-        return static::select('*, DATE_FORMAT(createdAt, "%b %a %y") as date', 'posts')
+        return static::select('*, DATE_FORMAT(createdAt, "%b %d %y") as date', 'posts')
             ->where('FIND_IN_SET("' . $tag . '", post_tag)')
             ->and('post_status', self::PUBLISHED)->limit(20)->exec();
     }
@@ -657,7 +657,7 @@ class Blog extends \Core\Model
     {
         return
             static::select('
-            c.comment_id as comment_id, DATE_FORMAT(c.createdAt, "%b %a %y") as date,
+            c.comment_id as comment_id, DATE_FORMAT(c.createdAt, "%b %d %y") as date,
             c.comment as comment, u.firstName as f_name, c.name as name, u.username as username, u.profile as image')
             ->from('post_comments c')->left('users u')
             ->on('u.user_id = c.user_id')->where('post_id', $id)
