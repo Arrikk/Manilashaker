@@ -5,7 +5,7 @@ services:
     build: ./docker
     image: arrikk/manilashaker
     ports:
-      - "7070:80"
+      - "443:80"
     volumes:
       - ./:/var/www
   db:
